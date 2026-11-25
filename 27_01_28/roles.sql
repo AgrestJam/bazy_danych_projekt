@@ -1,4 +1,4 @@
-﻿-- Role i uprawnienia PostgreSQL
+-- Role i uprawnienia PostgreSQL
 
 DO $$
 BEGIN

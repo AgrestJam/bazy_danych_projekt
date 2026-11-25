@@ -1,6 +1,7 @@
 BEGIN;
+SET session_replication_role = 'replica';
 
-INSERT INTO users (id, name, username, password_hash, role, active, failed_logins, locked_until) VALUES
+INSERT INTO users (id, name, username, password_hash, role, active, failed_logins, locked_until) OVERRIDING SYSTEM VALUE VALUES
 (1, 'Ala Kowalska', 'ala.kowalska', 'hash_ala_123', 'admin', TRUE, 0, NULL),
 (2, 'Bartek Nowak', 'bartek.nowak', 'hash_bartek_123', 'moderator', TRUE, 0, NULL),
 (3, 'Celina Wisniewska', 'celina.w', 'hash_celina_123', 'user', TRUE, 0, NULL),
@@ -8,7 +9,7 @@ INSERT INTO users (id, name, username, password_hash, role, active, failed_login
 (5, 'Ewa Maj', 'ewa.maj', 'hash_ewa_123', 'user', TRUE, 0, NULL);
 SELECT setval(pg_get_serial_sequence('users','id'), (SELECT MAX(id) FROM users));
 
-INSERT INTO components (id, name, part_number, description, min_qty) VALUES
+INSERT INTO components (id, name, part_number, description, min_qty) OVERRIDING SYSTEM VALUE VALUES
 (1, 'Rezystor 10k 1/4W', 'RES-10K-025', 'Rezystor THT 5%', 100),
 (2, 'Kondensator 100nF', 'CAP-100NF', 'Ceramiczny 50V', 50),
 (3, 'ESP32 DevKit', 'ESP32-DEVKITC', 'Modul WiFi+BT', 2),
@@ -17,31 +18,32 @@ INSERT INTO components (id, name, part_number, description, min_qty) VALUES
 (6, 'Przewody DuPont M-M', 'DUPONT-MM-40', 'Zestaw 40 szt.', 5);
 SELECT setval(pg_get_serial_sequence('components','id'), (SELECT MAX(id) FROM components));
 
-INSERT INTO stock (id, component_id, owner_id, holder_id, location, qty) VALUES
-(1, 1, 1, 1, 'pokoj 101, szuflada A', 200),
-(2, 1, 1, 3, 'pokoj 103, pudełko pożyczone', 20),
+INSERT INTO stock (id, component_id, owner_id, holder_id, location, qty) OVERRIDING SYSTEM VALUE VALUES
+(1, 1, 1, 1, 'pokoj 101, szuflada A', 180),
+(2, 1, 1, 3, 'pokoj 103, pudelko pozyczone', 20),
 (3, 2, 2, 2, 'pokoj 102, organizer', 80),
 (4, 3, 3, 3, 'pokoj 103, biurko', 1),
 (5, 4, 1, 4, 'pokoj 104, warsztat', 50),
-(6, 5, 2, 3, 'pokoj 103, pudełko projektowe', 1),
+(6, 5, 2, 3, 'pokoj 103, pudelko projektowe', 1),
 (7, 6, 5, 5, 'pokoj 105, woreczek', 40);
 SELECT setval(pg_get_serial_sequence('stock','id'), (SELECT MAX(id) FROM stock));
 
-INSERT INTO movements (id, ts, kind, component_id, owner_id, to_owner_id, from_holder_id, to_holder_id, from_location, to_location, qty, note, user_id) VALUES
+INSERT INTO movements (id, ts, kind, component_id, owner_id, to_owner_id, from_holder_id, to_holder_id, from_location, to_location, qty, note, user_id) OVERRIDING SYSTEM VALUE VALUES
 (1, '2026-11-20 10:00:00+01', 'receive', 1, 1, NULL, NULL, 1, NULL, 'pokoj 101, szuflada A', 200, 'Zakup poczatkowy', 1),
 (2, '2026-11-20 11:00:00+01', 'receive', 2, 2, NULL, NULL, 2, NULL, 'pokoj 102, organizer', 80, 'Zakup poczatkowy', 2),
 (3, '2026-11-21 09:30:00+01', 'receive', 3, 3, NULL, NULL, 3, NULL, 'pokoj 103, biurko', 1, 'Prywatny modul', 3),
-(4, '2026-11-22 14:15:00+01', 'transfer', 1, 1, NULL, 1, 3, 'pokoj 101, szuflada A', 'pokoj 103, pudełko pożyczone', 20, 'Pozyczka na projekt', 1),
+(4, '2026-11-22 14:15:00+01', 'transfer', 1, 1, NULL, 1, 3, 'pokoj 101, szuflada A', 'pokoj 103, pudelko pozyczone', 20, 'Pozyczka na projekt', 1),
 (5, '2026-11-23 16:00:00+01', 'receive', 4, 1, NULL, NULL, 4, NULL, 'pokoj 104, warsztat', 50, 'Wspolny zakup', 1),
-(6, '2026-11-24 18:20:00+01', 'transfer', 5, 2, NULL, 2, 3, 'pokoj 102, organizer', 'pokoj 103, pudełko projektowe', 1, 'Pozyczka czujnika', 2),
+(6, '2026-11-24 18:20:00+01', 'transfer', 5, 2, NULL, 2, 3, 'pokoj 102, organizer', 'pokoj 103, pudelko projektowe', 1, 'Pozyczka czujnika', 2),
 (7, '2026-11-25 12:00:00+01', 'receive', 6, 5, NULL, NULL, 5, NULL, 'pokoj 105, woreczek', 40, 'Nowe przewody', 5);
 SELECT setval(pg_get_serial_sequence('movements','id'), (SELECT MAX(id) FROM movements));
 
-INSERT INTO order_items (id, component_id, qty, unit_cost, supplier, note, status, created_at, created_by, ordered_at, received_at) VALUES
+INSERT INTO order_items (id, component_id, qty, unit_cost, supplier, note, status, created_at, created_by, ordered_at, received_at) OVERRIDING SYSTEM VALUE VALUES
 (1, 1, 100, 0.05, 'Botland', 'Uzupelnienie rezystorow', 'ordered', '2026-11-19 12:00:00+01', 1, '2026-11-19 13:00:00+01', NULL),
 (2, 3, 2, 39.9, 'Botland', 'Na warsztaty IoT', 'cart', '2026-11-25 09:00:00+01', 3, NULL, NULL),
 (3, 5, 1, 29.99, 'AliExpress', 'Czujnik zapasowy', 'received', '2026-11-18 08:00:00+01', 2, '2026-11-18 09:00:00+01', '2026-11-24 17:00:00+01'),
 (4, 2, 50, 0.12, 'TME', 'Uzupelnienie kondensatorow', 'cart', '2026-11-26 10:00:00+01', 4, NULL, NULL);
 SELECT setval(pg_get_serial_sequence('order_items','id'), (SELECT MAX(id) FROM order_items));
 
+SET session_replication_role = 'origin';
 COMMIT;
