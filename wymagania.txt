@@ -1,0 +1,40 @@
+Wymagania:
+dostarczenie raportu opisującego cel, kroki i wynik końcowy dla każdego
+ze spotkań projektowych, w tym kodu, jeśli obowiązuje,
+przygotowanie ostatecznej dokumentacji projektowej opisującej
+stworzoną bazę danych,
+końcowa prezentacja wyników.
+Wymagania z prezentacji
+19.11:
+podział na grupy i praca koncepcyjna,
+ogólny pomysł – jaki problem będzie rozwiązywać baza danych,
+jakie tabele i kolumny będzie zawierać baza danych,
+jakie relacje powinny występować pomiędzy tabelami,
+jakie typy danych powinna zawierać każda z kolumn,
+wstępne pomysły dotyczące warunków, jakie każda z kolumn powinna
+spełniać oraz jakie role będą istniały w bazie danych.
+26.11:
+stworzenie odpowiednich skryptów i wygenerowanie danych do
+tabel.
+03.12:
+stworzenie bazy danych – tabel, kolumn, relacji między nimi,
+wykorzystanie prostych SELECTów do wykazania, jak działa baza, jakie
+są relacje i dane.
+10.12: 
+dodanie warunków, jakie każda z kolumn musi spełniać.
+Wypełnienie tabel danymi i ewentualne poprawki skryptów do generacji
+danych.
+17.12: 
+implementacja:
+funkcji,
+trigerrów,
+ról.
+14.01: 
+przygotowanie końcowej i całościowej dokumentacji, którą
+należy przesłać do 17.01 włącznie.
+21.01:
+prezentacja projektu, z uwzględnieniem każdego z
+wykonywanych wcześniej kroków. Prezentacja powinna zająć ok. 7 min.
+28.01: 
+1/2h, spotkanie zarezerwowane na wypadek konieczności
+poprawy
